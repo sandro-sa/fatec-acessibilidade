@@ -1,456 +1,304 @@
 <!doctype html>
 <html lang="pt-br">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portal de Notícias</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <script src="./js/main.js" defer></script>
+    <title>Portal de Notícias</title>
+  </head>
 
-  <style>
-    :root{
-      --bg: #0b0f17;
-      --surface: #111827;
-      --surface2: #0f172a;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --brand: #22c55e;
-      --border: rgba(255,255,255,.08);
-      --shadow: 0 10px 25px rgba(0,0,0,.35);
-
-      /* gancho para exercício de fonte */
-      --base-font: 16px;
-    }
-
-    * { box-sizing: border-box; }
-    body{
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 600px at 30% 0%, rgba(34,197,94,.10), transparent 55%),
-                  radial-gradient(900px 500px at 80% 20%, rgba(59,130,246,.10), transparent 45%),
-                  var(--bg);
-      color: var(--text);
-      font-size: var(--base-font);
-      line-height: 1.5;
-    }
-
-    .container{ width: min(1200px, 92vw); margin: 0 auto; }
-
-    .topbar{
-      position: sticky; top: 0; z-index: 50;
-      background: rgba(11,15,23,.75);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-    }
-    .topbar-inner{
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; padding: 14px 0;
-    }
-
-    .brand{ display: flex; align-items: center; gap: 10px; user-select: none; }
-    .brand-badge{
-      width: 34px; height: 34px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--brand), rgba(34,197,94,.35));
-      box-shadow: var(--shadow);
-    }
-    .brand-title{ display: flex; flex-direction: column; line-height: 1.1; }
-    .brand-title .name{ font-weight: 800; letter-spacing: .2px; }
-    .brand-title .tagline{ font-size: .85em; color: var(--muted); }
-
-    .nav{ display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-
-    /* links fake com div */
-    .nav-item{
-      padding: 8px 10px; border-radius: 10px;
-      border: 1px solid var(--border);
-      background: rgba(17,24,39,.6);
-      color: var(--text);
-      font-size: .95em;
-      cursor: pointer;
-      transition: transform .05s ease, border-color .15s ease;
-      outline: none; /* proposital: sem foco visível */
-    }
-    .nav-item:hover{ border-color: rgba(255,255,255,.18); }
-    .nav-item:active{ transform: translateY(1px); }
-
-    .tools{
-      display: flex; gap: 8px; align-items: center; justify-content: flex-end;
-      flex-wrap: wrap;
-    }
- 
-
-    .search{
-      display: flex; gap: 8px; align-items: center;
-      padding: 8px 10px; border-radius: 12px;
-      border: 1px solid var(--border);
-      background: rgba(17,24,39,.55);
-      min-width: 260px;
-    }
-    .search-icon{
-      width: 12px; height: 12px;
-      border: 2px solid var(--muted);
-      border-radius: 999px;
-      position: relative;
-      opacity: .85;
-    }
-    .search-icon:after{
-      content:"";
-      position:absolute;
-      width: 8px; height: 2px;
-      background: var(--muted);
-      right: -7px; bottom: -5px;
-      transform: rotate(45deg);
-      border-radius: 2px;
-    }
-    .search-input{
-      flex: 1;
-      color: var(--muted);
-      font-size: .92em;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .page{ padding: 18px 0 60px; }
-    .grid{
-      display: grid;
-      grid-template-columns: 1.6fr .9fr;
-      gap: 18px;
-      align-items: start;
-    }
-    @media (max-width: 980px){
-      .grid{ grid-template-columns: 1fr; }
-      .search{ min-width: 180px; }
-    }
-
-    .card{
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(17,24,39,.75), rgba(15,23,42,.65));
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-    .card-pad{ padding: 16px; }
-
-    .kicker{
-      display: inline-flex; align-items: center; gap: 8px;
-      color: rgba(34,197,94,.95);
-      font-weight: 700; letter-spacing: .25px;
-      font-size: .85em; text-transform: uppercase;
-    }
-    .dot{
-      width: 7px; height: 7px;
-      background: var(--brand); border-radius: 999px;
-      box-shadow: 0 0 0 4px rgba(34,197,94,.12);
-    }
-
-    .headline{
-      margin-top: 10px;
-      font-weight: 900;
-      font-size: clamp(1.4rem, 2.1vw, 2rem);
-      line-height: 1.15;
-    }
-    .subhead{ margin-top: 10px; color: var(--muted); font-size: 1.02em; }
-
-    .hero-meta{
-      display: flex; gap: 10px; flex-wrap: wrap;
-      margin-top: 12px;
-      color: rgba(229,231,235,.85);
-      font-size: .9em;
-    }
-    .pill{
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,.18);
-    }
-
-    /* imagens */
-    .hero-img{
-      width: 100%;
-      height: 240px;
-      display: block;
-      object-fit: cover;
-      border-top: 1px solid var(--border);
-      background: rgba(255,255,255,.04);
-    }
-
-    .section-title{ font-weight: 900; letter-spacing: .3px; margin: 14px 0 10px; }
-
-    .news-list{
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    @media (max-width: 620px){
-      .news-list{ grid-template-columns: 1fr; }
-    }
-
-    .news-item{
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: rgba(0,0,0,.18);
-      padding: 12px;
-      cursor: pointer;
-      transition: border-color .15s ease, transform .05s ease;
-      outline: none; /* proposital */
-    }
-    .news-item:hover{ border-color: rgba(255,255,255,.18); }
-    .news-item:active{ transform: translateY(1px); }
-
-    .thumb{
-      width: 100%;
-      height: 120px;
-      border-radius: 12px;
-      object-fit: cover;
-      display: block;
-      margin-bottom: 10px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.04);
-    }
-
-    .news-item .title{ font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
-    .news-item .desc{ color: var(--muted); font-size: .95em; margin-bottom: 10px; }
-    .news-item .meta{
-      display: flex; gap: 8px; flex-wrap: wrap;
-      font-size: .85em; color: rgba(229,231,235,.82);
-    }
-
-    .sidebar-block + .sidebar-block{ margin-top: 12px; }
-
-    .rank-item{
-      display: flex; gap: 10px; padding: 10px 0;
-      border-top: 1px solid var(--border);
-    }
-    .rank-item:first-child{ border-top: 0; padding-top: 0; }
-
-    .rank-num{
-      width: 26px; height: 26px; border-radius: 9px;
-      display: grid; place-items: center;
-      font-weight: 900;
-      background: rgba(34,197,94,.14);
-      border: 1px solid rgba(34,197,94,.22);
-      color: rgba(34,197,94,.95);
-      flex: 0 0 auto;
-    }
-
-    .rank-text .t{ font-weight: 800; line-height: 1.2; }
-    .rank-text .m{ color: var(--muted); font-size: .9em; margin-top: 2px; }
-
-    .footer{
-      margin-top: 18px;
-      padding: 16px 0 28px;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: .95em;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="topbar">
-    <div class="container">
-      <div class="topbar-inner">
-        <div class="brand">
-          <div class="brand-badge"></div>
-          <div class="brand-title">
-            <div class="name">Portal Agora</div>
-            <div class="tagline">manchetes, economia, tech e esportes</div>
+  <body>
+    <div class="topbar">
+      <div class="container">
+        <div class="topbar-inner">
+          <div class="brand">
+            <div class="brand-badge"></div>
+            <div class="brand-title">
+              <div class="name">Portal Agora</div>
+              <div class="tagline">manchetes, economia, tech e esportes</div>
+            </div>
           </div>
-        </div>
 
-        <div class="nav" id="nav">
-          <div class="nav-item">Início</div>
-          <div class="nav-item">Brasil</div>
-          <div class="nav-item">Mundo</div>
-          <div class="nav-item">Economia</div>
-          <div class="nav-item">Tecnologia</div>
-          <div class="nav-item">Esportes</div>
-          <div class="nav-item">Entretenimento</div>
-        </div>
-
-        <div class="tools">
-          <div class="search" id="search">
-            <div class="search-icon"></div>
-            <div class="search-input">Buscar no portal… (falso input)</div>
+          <div class="nav" id="nav">
+            <div class="nav-item">Início</div>
+            <div class="nav-item">Brasil</div>
+            <div class="nav-item">Mundo</div>
+            <div class="nav-item">Economia</div>
+            <div class="nav-item">Tecnologia</div>
+            <div class="nav-item">Esportes</div>
+            <div class="nav-item">Entretenimento</div>
           </div>
-         
-          
+
+          <div class="tools">
+            <button
+              id="btn-decrease"
+              class="nav-item"
+              aria-label="Diminuir tamanho da fonte"
+              title="Diminuir fonte"
+            >
+              A-
+            </button>
+            <button
+              id="btn-increase"
+              class="nav-item"
+              aria-label="Aumentar tamanho da fonte"
+              title="Aumentar fonte"
+            >
+              A+
+            </button>
+            <div class="search" id="search">
+              <div class="search-icon"></div>
+              <div class="search-input">Buscar no portal… (falso input)</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="page">
-    <div class="container">
-      <div class="grid">
-      
-        <div>
-          <div class="card" id="hero">
-            <div class="card-pad">
-              <div class="kicker"><span class="dot"></span> Destaque do dia</div>
-              <div class="headline">Governo anuncia pacote de investimentos em infraestrutura digital</div>
-              <div class="subhead">
-                Medidas incluem expansão de banda larga, incentivo à inovação e metas de conectividade em escolas.
-                Especialistas avaliam impactos no mercado e na inclusão digital.
-              </div>
-              <div class="hero-meta">
-                <div class="pill">Atualizado há 12 min</div>
-                <div class="pill">Economia</div>
-                <div class="pill">Análise</div>
-              </div>
-            </div>
-
-           
-            <img class="hero-img"
-                 src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='600'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2322c55e' offset='0'/%3E%3Cstop stop-color='%230f172a' offset='0.6'/%3E%3Cstop stop-color='%233b82f6' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='600' fill='url(%23g)'/%3E%3Ccircle cx='900' cy='220' r='180' fill='rgba(255,255,255,0.15)'/%3E%3Crect x='90' y='360' width='520' height='26' fill='rgba(255,255,255,0.18)'/%3E%3Crect x='90' y='400' width='420' height='18' fill='rgba(255,255,255,0.12)'/%3E%3Ctext x='90' y='120' fill='rgba(255,255,255,0.85)' font-family='Arial' font-size='44'%3EInfraestrutura digital%3C/text%3E%3Ctext x='90' y='170' fill='rgba(255,255,255,0.75)' font-family='Arial' font-size='22'%3EImagem ilustrativa para exerc%C3%ADcios%3C/text%3E%3C/svg%3E" />
-          </div>
-
-          <div class="section-title">Últimas notícias</div>
-
-          <div class="news-list" id="newsList">
-            <div class="news-item">
-           
-              <img class="thumb"
-                   src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%233b82f6' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.65'/%3E%3Cstop stop-color='%2322c55e' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Crect x='60' y='70' width='360' height='26' fill='rgba(255,255,255,0.20)'/%3E%3Crect x='60' y='110' width='300' height='18' fill='rgba(255,255,255,0.12)'/%3E%3C/svg%3E" />
-              <div class="title">Tecnologia: IA acelera atendimento em serviços públicos</div>
-              <div class="desc">Projetos piloto apontam redução de filas e maior previsibilidade de demanda.</div>
-              <div class="meta">
-                <div class="pill">Tecnologia</div><div class="pill">há 28 min</div>
-              </div>
-            </div>
-
-            <div class="news-item">
-              <img class="thumb"
-                   src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23f59e0b' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.62'/%3E%3Cstop stop-color='%23ef4444' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Ccircle cx='600' cy='160' r='120' fill='rgba(255,255,255,0.12)'/%3E%3C/svg%3E" />
-              <div class="title">Mercado: dólar oscila após falas do banco central</div>
-              <div class="desc">Analistas veem cenário misto e recomendam cautela no curto prazo.</div>
-              <div class="meta">
-                <div class="pill">Economia</div><div class="pill">há 44 min</div>
-              </div>
-            </div>
-
-            <div class="news-item">
-              <img class="thumb"
-                   src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%238b5cf6' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.65'/%3E%3Cstop stop-color='%2322c55e' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Crect x='70' y='250' width='520' height='22' fill='rgba(255,255,255,0.14)'/%3E%3C/svg%3E" />
-              <div class="title">Saúde: campanha reforça vacinação e combate desinformação</div>
-              <div class="desc">Ações em escolas e redes sociais buscam aumentar a cobertura vacinal.</div>
-              <div class="meta">
-                <div class="pill">Saúde</div><div class="pill">há 1 h</div>
-              </div>
-            </div>
-
-            <div class="news-item">
-              <img class="thumb"
-                   src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2322c55e' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.6'/%3E%3Cstop stop-color='%233b82f6' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Cpath d='M80 260 L220 180 L360 250 L520 140 L680 220' fill='none' stroke='rgba(255,255,255,0.20)' stroke-width='8'/%3E%3C/svg%3E" />
-              <div class="title">Esportes: rodada decisiva define classificados</div>
-              <div class="desc">Times entram em campo com chances abertas; veja cenários de classificação.</div>
-              <div class="meta">
-                <div class="pill">Esportes</div><div class="pill">há 2 h</div>
-              </div>
-            </div>
-
-            <div class="news-item">
-              <img class="thumb"
-                   src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2360a5fa' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.62'/%3E%3Cstop stop-color='%23f59e0b' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Crect x='70' y='70' width='300' height='220' fill='rgba(255,255,255,0.10)'/%3E%3C/svg%3E" />
-              <div class="title">Cidades: novas regras para circulação no centro</div>
-              <div class="desc">Mudanças afetam carga e descarga; prefeitura promete fiscalização gradual.</div>
-              <div class="meta">
-                <div class="pill">Cidades</div><div class="pill">há 3 h</div>
-              </div>
-            </div>
-
-            <div class="news-item">
-              <img class="thumb"
-                   src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23fb7185' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.63'/%3E%3Cstop stop-color='%23a78bfa' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Ccircle cx='210' cy='190' r='120' fill='rgba(255,255,255,0.12)'/%3E%3C/svg%3E" />
-              <div class="title">Cultura: festival anuncia atrações e datas</div>
-              <div class="desc">Evento terá palcos temáticos e programação gratuita em vários bairros.</div>
-              <div class="meta">
-                <div class="pill">Cultura</div><div class="pill">há 4 h</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      
-        <div>
-          <div class="card sidebar-block">
-            <div class="card-pad">
-              <div class="section-title" style="margin-top:0;">Mais lidas</div>
-
-              <div class="rank-item">
-                <div class="rank-num">1</div>
-                <div class="rank-text">
-                  <div class="t">Preço de eletrônicos cai após mudança tributária</div>
-                  <div class="m">Entenda o que muda e quando chega ao consumidor</div>
+    <div class="page">
+      <div class="container">
+        <div class="grid">
+          <div>
+            <div class="card" id="hero">
+              <div class="card-pad">
+                <div class="kicker">
+                  <span class="dot"></span> Destaque do dia
+                </div>
+                <div class="headline">
+                  Governo anuncia pacote de investimentos em infraestrutura
+                  digital
+                </div>
+                <div class="subhead">
+                  Medidas incluem expansão de banda larga, incentivo à inovação
+                  e metas de conectividade em escolas. Especialistas avaliam
+                  impactos no mercado e na inclusão digital.
+                </div>
+                <div class="hero-meta">
+                  <div class="pill">Atualizado há 12 min</div>
+                  <div class="pill">Economia</div>
+                  <div class="pill">Análise</div>
                 </div>
               </div>
 
-              <div class="rank-item">
-                <div class="rank-num">2</div>
-                <div class="rank-text">
-                  <div class="t">Golpes digitais: 7 sinais de alerta em mensagens</div>
-                  <div class="m">Como identificar e evitar links suspeitos</div>
-                </div>
-              </div>
-
-              <div class="rank-item">
-                <div class="rank-num">3</div>
-                <div class="rank-text">
-                  <div class="t">Guia: como organizar finanças em 30 dias</div>
-                  <div class="m">Passo a passo com planilha e metas simples</div>
-                </div>
-              </div>
+              <img
+                class="hero-img"
+                src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='600'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2322c55e' offset='0'/%3E%3Cstop stop-color='%230f172a' offset='0.6'/%3E%3Cstop stop-color='%233b82f6' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='600' fill='url(%23g)'/%3E%3Ccircle cx='900' cy='220' r='180' fill='rgba(255,255,255,0.15)'/%3E%3Crect x='90' y='360' width='520' height='26' fill='rgba(255,255,255,0.18)'/%3E%3Crect x='90' y='400' width='420' height='18' fill='rgba(255,255,255,0.12)'/%3E%3Ctext x='90' y='120' fill='rgba(255,255,255,0.85)' font-family='Arial' font-size='44'%3EInfraestrutura digital%3C/text%3E%3Ctext x='90' y='170' fill='rgba(255,255,255,0.75)' font-family='Arial' font-size='22'%3EImagem ilustrativa para exerc%C3%ADcios%3C/text%3E%3C/svg%3E"
+              />
             </div>
-          </div>
 
-          <div class="card sidebar-block">
-            <div class="card-pad">
-              <div class="section-title" style="margin-top:0;">Boletim rápido</div>
+            <div class="section-title">Últimas notícias</div>
 
-           
-              <img class="thumb" style="height: 140px; margin-top: 10px;"
-                   src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2310b981' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.65'/%3E%3Cstop stop-color='%23f97316' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Ctext x='60' y='100' fill='rgba(255,255,255,0.8)' font-family='Arial' font-size='28'%3EBoletim%3C/text%3E%3C/svg%3E" />
-
-              <div style="color: var(--muted);">
-                <div>• Tempo: calor e pancadas isoladas</div>
-                <div>• Trânsito: lentidão em vias centrais</div>
-                <div>• Agenda: eventos culturais no fim de semana</div>
-              </div>
-              <div style="margin-top:12px; color: rgba(229,231,235,.85); font-size:.92em;">
-              
-              </div>
-            </div>
-          </div>
-
-          <div class="card sidebar-block">
-            <div class="card-pad">
-              <div class="section-title" style="margin-top:0;">Newsletter</div>
-              <div style="color: var(--muted); margin-bottom: 10px;">
-                Receba as principais manchetes (campo fake para exercício).
-              </div>
-              <div class="news-item" style="cursor: default;">
-                <div class="title" style="margin-bottom:6px;">Seu e-mail</div>
-                <div class="desc">exemplo@dominio.com</div>
+            <div class="news-list" id="newsList">
+              <div class="news-item">
+                <img
+                  class="thumb"
+                  src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%233b82f6' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.65'/%3E%3Cstop stop-color='%2322c55e' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Crect x='60' y='70' width='360' height='26' fill='rgba(255,255,255,0.20)'/%3E%3Crect x='60' y='110' width='300' height='18' fill='rgba(255,255,255,0.12)'/%3E%3C/svg%3E"
+                />
+                <div class="title">
+                  Tecnologia: IA acelera atendimento em serviços públicos
+                </div>
+                <div class="desc">
+                  Projetos piloto apontam redução de filas e maior
+                  previsibilidade de demanda.
+                </div>
                 <div class="meta">
-                  <div class="pill">Cadastrar</div>
+                  <div class="pill">Tecnologia</div>
+                  <div class="pill">há 28 min</div>
+                </div>
+              </div>
+
+              <div class="news-item">
+                <img
+                  class="thumb"
+                  src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23f59e0b' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.62'/%3E%3Cstop stop-color='%23ef4444' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Ccircle cx='600' cy='160' r='120' fill='rgba(255,255,255,0.12)'/%3E%3C/svg%3E"
+                />
+                <div class="title">
+                  Mercado: dólar oscila após falas do banco central
+                </div>
+                <div class="desc">
+                  Analistas veem cenário misto e recomendam cautela no curto
+                  prazo.
+                </div>
+                <div class="meta">
+                  <div class="pill">Economia</div>
+                  <div class="pill">há 44 min</div>
+                </div>
+              </div>
+
+              <div class="news-item">
+                <img
+                  class="thumb"
+                  src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%238b5cf6' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.65'/%3E%3Cstop stop-color='%2322c55e' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Crect x='70' y='250' width='520' height='22' fill='rgba(255,255,255,0.14)'/%3E%3C/svg%3E"
+                />
+                <div class="title">
+                  Saúde: campanha reforça vacinação e combate desinformação
+                </div>
+                <div class="desc">
+                  Ações em escolas e redes sociais buscam aumentar a cobertura
+                  vacinal.
+                </div>
+                <div class="meta">
+                  <div class="pill">Saúde</div>
+                  <div class="pill">há 1 h</div>
+                </div>
+              </div>
+
+              <div class="news-item">
+                <img
+                  class="thumb"
+                  src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2322c55e' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.6'/%3E%3Cstop stop-color='%233b82f6' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Cpath d='M80 260 L220 180 L360 250 L520 140 L680 220' fill='none' stroke='rgba(255,255,255,0.20)' stroke-width='8'/%3E%3C/svg%3E"
+                />
+                <div class="title">
+                  Esportes: rodada decisiva define classificados
+                </div>
+                <div class="desc">
+                  Times entram em campo com chances abertas; veja cenários de
+                  classificação.
+                </div>
+                <div class="meta">
+                  <div class="pill">Esportes</div>
+                  <div class="pill">há 2 h</div>
+                </div>
+              </div>
+
+              <div class="news-item">
+                <img
+                  class="thumb"
+                  src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2360a5fa' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.62'/%3E%3Cstop stop-color='%23f59e0b' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Crect x='70' y='70' width='300' height='220' fill='rgba(255,255,255,0.10)'/%3E%3C/svg%3E"
+                />
+                <div class="title">
+                  Cidades: novas regras para circulação no centro
+                </div>
+                <div class="desc">
+                  Mudanças afetam carga e descarga; prefeitura promete
+                  fiscalização gradual.
+                </div>
+                <div class="meta">
+                  <div class="pill">Cidades</div>
+                  <div class="pill">há 3 h</div>
+                </div>
+              </div>
+
+              <div class="news-item">
+                <img
+                  class="thumb"
+                  src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23fb7185' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.63'/%3E%3Cstop stop-color='%23a78bfa' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Ccircle cx='210' cy='190' r='120' fill='rgba(255,255,255,0.12)'/%3E%3C/svg%3E"
+                />
+                <div class="title">
+                  Cultura: festival anuncia atrações e datas
+                </div>
+                <div class="desc">
+                  Evento terá palcos temáticos e programação gratuita em vários
+                  bairros.
+                </div>
+                <div class="meta">
+                  <div class="pill">Cultura</div>
+                  <div class="pill">há 4 h</div>
                 </div>
               </div>
             </div>
           </div>
 
-        </div>
-      </div>
+          <div>
+            <div class="card sidebar-block">
+              <div class="card-pad">
+                <div class="section-title" style="margin-top: 0">
+                  Mais lidas
+                </div>
 
-      <div class="footer">
-        <div class="container">
-          Portal Agora • Página demonstrativa para exercícios de acessibilidade • Feita propositalmente com DIVs e imagens sem ALT
+                <div class="rank-item">
+                  <div class="rank-num">1</div>
+                  <div class="rank-text">
+                    <div class="t">
+                      Preço de eletrônicos cai após mudança tributária
+                    </div>
+                    <div class="m">
+                      Entenda o que muda e quando chega ao consumidor
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rank-item">
+                  <div class="rank-num">2</div>
+                  <div class="rank-text">
+                    <div class="t">
+                      Golpes digitais: 7 sinais de alerta em mensagens
+                    </div>
+                    <div class="m">
+                      Como identificar e evitar links suspeitos
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rank-item">
+                  <div class="rank-num">3</div>
+                  <div class="rank-text">
+                    <div class="t">
+                      Guia: como organizar finanças em 30 dias
+                    </div>
+                    <div class="m">
+                      Passo a passo com planilha e metas simples
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card sidebar-block">
+              <div class="card-pad">
+                <div class="section-title" style="margin-top: 0">
+                  Boletim rápido
+                </div>
+
+                <img
+                  class="thumb"
+                  style="height: 140px; margin-top: 10px"
+                  src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2310b981' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.65'/%3E%3Cstop stop-color='%23f97316' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Ctext x='60' y='100' fill='rgba(255,255,255,0.8)' font-family='Arial' font-size='28'%3EBoletim%3C/text%3E%3C/svg%3E"
+                />
+
+                <div style="color: var(--muted)">
+                  <div>• Tempo: calor e pancadas isoladas</div>
+                  <div>• Trânsito: lentidão em vias centrais</div>
+                  <div>• Agenda: eventos culturais no fim de semana</div>
+                </div>
+                <div
+                  style="
+                    margin-top: 12px;
+                    color: rgba(229, 231, 235, 0.85);
+                    font-size: 0.92em;
+                  "
+                ></div>
+              </div>
+            </div>
+
+            <div class="card sidebar-block">
+              <div class="card-pad">
+                <div class="section-title" style="margin-top: 0">
+                  Newsletter
+                </div>
+                <div style="color: var(--muted); margin-bottom: 10px">
+                  Receba as principais manchetes (campo fake para exercício).
+                </div>
+                <div class="news-item" style="cursor: default">
+                  <div class="title" style="margin-bottom: 6px">Seu e-mail</div>
+                  <div class="desc">exemplo@dominio.com</div>
+                  <div class="meta">
+                    <div class="pill">Cadastrar</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <div class="container">
+            Portal Agora • Página demonstrativa para exercícios de
+            acessibilidade • Feita propositalmente com DIVs e imagens sem ALT
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <script>
- 
-
-  </script>
-</body>
+  </body>
 </html>
