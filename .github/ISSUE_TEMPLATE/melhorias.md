@@ -25,6 +25,7 @@ Aumenta e diminuí a fonte do site.
 Implementação utilizando o Gemini
 
 ## link para o projeto
+https://github.com/RafaelPinhoDev/fatec-acessibilidade/tree/atividade-1-fonte-aumentar-diminuir
 
 ## Membros da equipe
 
