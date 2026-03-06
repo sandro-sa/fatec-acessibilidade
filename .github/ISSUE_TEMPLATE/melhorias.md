@@ -22,7 +22,8 @@ Tornar a página acessível para pessoas que possuam algum tipo de defiiência v
 Implementação utilizando o Gemini
 
 ## link para o projeto
-https://github.com/RafaelPinhoDev/fatec-acessibilidade/tree/atividade-1-fonte-aumentar-diminuir
+
+https://github.com/RafaelPinhoDev/fatec-acessibilidade/tree/atividade-2-aumentar-diminuir-contraste
 
 ## Membros da equipe
 
