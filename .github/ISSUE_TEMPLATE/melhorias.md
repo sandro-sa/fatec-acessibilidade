@@ -1,7 +1,7 @@
 ---
 name: 💡 Sugestão de melhoria
 about: Sugira uma melhoria para o projeto
-title: "[SUGESTÃO] "
+title: "[SUGESTÃO] Atividade 2"
 labels: enhancement
 ---
 
