@@ -65,10 +65,12 @@
       color: var(--text);
       font-size: .95em;
       cursor: pointer;
-      transition: transform .05s ease, border-color .15s ease;
-      outline: none; /* proposital: sem foco visível */
+      transition: transform .05s ease, border-color .15s ease, outline-color .15s ease;
+      outline: 2px solid transparent;
+      outline-offset: 2px;
     }
     .nav-item:hover{ border-color: rgba(255,255,255,.18); }
+    .nav-item:focus{ outline-color: var(--brand); border-color: rgba(34,197,94,.5); }
     .nav-item:active{ transform: translateY(1px); }
 
     .tools{
@@ -190,10 +192,12 @@
       background: rgba(0,0,0,.18);
       padding: 12px;
       cursor: pointer;
-      transition: border-color .15s ease, transform .05s ease;
-      outline: none; /* proposital */
+      transition: border-color .15s ease, transform .05s ease, outline-color .15s ease;
+      outline: 2px solid transparent;
+      outline-offset: 2px;
     }
     .news-item:hover{ border-color: rgba(255,255,255,.18); }
+    .news-item:focus{ outline-color: var(--brand); border-color: rgba(34,197,94,.5); }
     .news-item:active{ transform: translateY(1px); }
 
     .thumb{
@@ -242,6 +246,57 @@
       color: var(--muted);
       font-size: .95em;
     }
+
+    /* Modo Alto Contraste */
+    body.alto-contraste {
+      --bg: #000000 !important;
+      --surface: #1a1a1a !important;
+      --surface2: #0d0d0d !important;
+      --text: #ffffff !important;
+      --muted: #e0e0e0 !important;
+      --brand: #ffff00 !important;
+      --border: rgba(255,255,255,.4) !important;
+      --shadow: 0 10px 25px rgba(0,0,0,.7) !important;
+    }
+
+    body.alto-contraste {
+      background: #000000 !important;
+    }
+
+    body.alto-contraste .brand-badge {
+      background: linear-gradient(135deg, #ffff00, rgba(255,255,0,.35)) !important;
+    }
+
+    body.alto-contraste .kicker {
+      color: #ffff00 !important;
+    }
+
+    body.alto-contraste .dot {
+      background: #ffff00 !important;
+      box-shadow: 0 0 0 4px rgba(255,255,0,.2) !important;
+    }
+
+    body.alto-contraste .rank-num {
+      background: rgba(255,255,0,.2) !important;
+      border: 1px solid rgba(255,255,0,.4) !important;
+      color: #ffff00 !important;
+    }
+
+    body.alto-contraste #btn-contraste {
+      border: 2px solid #ffff00 !important;
+      background: rgba(255,255,0,.15) !important;
+      color: #ffff00 !important;
+      font-weight: bold !important;
+    }
+
+    body.alto-contraste #btn-contraste:hover {
+      background: rgba(255,255,0,.25) !important;
+    }
+
+    body.alto-contraste #btn-contraste:focus {
+      outline-color: #ffff00 !important;
+      border-color: #ffff00 !important;
+    }
   </style>
 </head>
 
@@ -258,22 +313,24 @@
         </div>
 
         <div class="nav" id="nav">
-          <div class="nav-item">Início</div>
-          <div class="nav-item">Brasil</div>
-          <div class="nav-item">Mundo</div>
-          <div class="nav-item">Economia</div>
-          <div class="nav-item">Tecnologia</div>
-          <div class="nav-item">Esportes</div>
-          <div class="nav-item">Entretenimento</div>
+          <div class="nav-item" tabindex="0">Início</div>
+          <div class="nav-item" tabindex="0">Brasil</div>
+          <div class="nav-item" tabindex="0">Mundo</div>
+          <div class="nav-item" tabindex="0">Economia</div>
+          <div class="nav-item" tabindex="0">Tecnologia</div>
+          <div class="nav-item" tabindex="0">Esportes</div>
+          <div class="nav-item" tabindex="0">Entretenimento</div>
         </div>
 
         <div class="tools">
+          <button class="nav-item" id="btn-diminuir" title="Diminuir fonte">A-</button>
+          <button class="nav-item" id="btn-aumentar" title="Aumentar fonte">A+</button>
+          <button class="nav-item" id="btn-contraste" title="Alternar modo alto contraste" aria-pressed="false">Contraste</button>
+          
           <div class="search" id="search">
             <div class="search-icon"></div>
-            <div class="search-input">Buscar no portal… (falso input)</div>
+            <div class="search-input">Buscar no portal…</div>
           </div>
-         
-          
         </div>
       </div>
     </div>
@@ -307,7 +364,7 @@
           <div class="section-title">Últimas notícias</div>
 
           <div class="news-list" id="newsList">
-            <div class="news-item">
+            <div class="news-item" tabindex="0">
            
               <img class="thumb"
                    src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%233b82f6' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.65'/%3E%3Cstop stop-color='%2322c55e' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Crect x='60' y='70' width='360' height='26' fill='rgba(255,255,255,0.20)'/%3E%3Crect x='60' y='110' width='300' height='18' fill='rgba(255,255,255,0.12)'/%3E%3C/svg%3E" />
@@ -318,7 +375,7 @@
               </div>
             </div>
 
-            <div class="news-item">
+            <div class="news-item" tabindex="0">
               <img class="thumb"
                    src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23f59e0b' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.62'/%3E%3Cstop stop-color='%23ef4444' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Ccircle cx='600' cy='160' r='120' fill='rgba(255,255,255,0.12)'/%3E%3C/svg%3E" />
               <div class="title">Mercado: dólar oscila após falas do banco central</div>
@@ -328,7 +385,7 @@
               </div>
             </div>
 
-            <div class="news-item">
+            <div class="news-item" tabindex="0">
               <img class="thumb"
                    src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%238b5cf6' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.65'/%3E%3Cstop stop-color='%2322c55e' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Crect x='70' y='250' width='520' height='22' fill='rgba(255,255,255,0.14)'/%3E%3C/svg%3E" />
               <div class="title">Saúde: campanha reforça vacinação e combate desinformação</div>
@@ -338,7 +395,7 @@
               </div>
             </div>
 
-            <div class="news-item">
+            <div class="news-item" tabindex="0">
               <img class="thumb"
                    src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2322c55e' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.6'/%3E%3Cstop stop-color='%233b82f6' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Cpath d='M80 260 L220 180 L360 250 L520 140 L680 220' fill='none' stroke='rgba(255,255,255,0.20)' stroke-width='8'/%3E%3C/svg%3E" />
               <div class="title">Esportes: rodada decisiva define classificados</div>
@@ -348,7 +405,7 @@
               </div>
             </div>
 
-            <div class="news-item">
+            <div class="news-item" tabindex="0">
               <img class="thumb"
                    src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%2360a5fa' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.62'/%3E%3Cstop stop-color='%23f59e0b' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Crect x='70' y='70' width='300' height='220' fill='rgba(255,255,255,0.10)'/%3E%3C/svg%3E" />
               <div class="title">Cidades: novas regras para circulação no centro</div>
@@ -358,7 +415,7 @@
               </div>
             </div>
 
-            <div class="news-item">
+            <div class="news-item" tabindex="0">
               <img class="thumb"
                    src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%23fb7185' offset='0'/%3E%3Cstop stop-color='%23111827' offset='0.63'/%3E%3Cstop stop-color='%23a78bfa' offset='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3Ccircle cx='210' cy='190' r='120' fill='rgba(255,255,255,0.12)'/%3E%3C/svg%3E" />
               <div class="title">Cultura: festival anuncia atrações e datas</div>
@@ -449,8 +506,82 @@
   </div>
 
   <script>
- 
+ // ===== DESAFIO 02: Alterar Contraste =====
+ // 1. Criar botão "Contraste" na interface ✓
+ // 2. Definir estadoContraste ← falso
+let estadoContraste = false;
 
+ // Recuperar estado do localStorage se existir
+const contrasteArmazenado = localStorage.getItem('estadoContraste');
+if (contrasteArmazenado !== null) {
+  estadoContraste = contrasteArmazenado === 'true';
+  if (estadoContraste) {
+    document.body.classList.add('alto-contraste');
+  }
+}
+
+ const btnContraste = document.getElementById('btn-contraste');
+ 
+ // 3. Quando usuário clicar no botão
+ btnContraste.addEventListener('click', function() {
+   // 4. Alterar estadoContraste
+   estadoContraste = !estadoContraste;
+   
+   // Salvar estado no localStorage
+   localStorage.setItem('estadoContraste', estadoContraste);
+   
+   // Atualizar aria-pressed para acessibilidade
+   btnContraste.setAttribute('aria-pressed', estadoContraste);
+   
+   // 5. Se estadoContraste = falso então
+   if (estadoContraste === false) {
+     // 8. Restaura cores padrão da interface
+     document.body.classList.remove('alto-contraste');
+   } else {
+     // 6. Ativar modo alto contraste que altere as cores (fundo escuro e texto claro)
+     // 7. estadoContraste ← verdadeiro
+     document.body.classList.add('alto-contraste');
+   }
+ });
+ 
+ // Restaurar estado na primeira carga
+ if (estadoContraste) {
+   btnContraste.setAttribute('aria-pressed', 'true');
+ }
+
+ // ===== Controle de Fonte =====
+ const btnAumentar = document.getElementById('btn-aumentar');
+ const btnDiminuir = document.getElementById('btn-diminuir');
+ const root = document.documentElement;
+ 
+ let fontSizeAtual = 16; 
+ const passo = 2;        
+ const maxFontSize = 30; 
+ const minFontSize = 12; 
+ 
+ function atualizarFonte(novoTamanho) {
+   fontSizeAtual = novoTamanho;
+   root.style.setProperty('--base-font', fontSizeAtual + 'px');
+   localStorage.setItem('fontSizeAtual', fontSizeAtual);
+ }
+ 
+ // Recuperar tamanho de fonte salvo
+ const fonteSalva = localStorage.getItem('fontSizeAtual');
+ if (fonteSalva) {
+   atualizarFonte(parseInt(fonteSalva));
+ }
+ 
+ btnAumentar.addEventListener('click', () => {
+   if (fontSizeAtual < maxFontSize) {
+     atualizarFonte(fontSizeAtual + passo);
+   }
+ });
+ 
+ btnDiminuir.addEventListener('click', () => {
+   if (fontSizeAtual > minFontSize) {
+     atualizarFonte(fontSizeAtual - passo);
+   }
+ });
   </script>
 </body>
 </html>
