@@ -7,18 +7,15 @@ labels: enhancement
 
 ## 📌 Descrição
 
-Organizar o código em partes separadas:
--1 arquivo para CSS
--1 arquivo para JavaScript
-Adicionar 1 botão de A+ e A- no header para aumentar e diminiuir a fonte.
-Fazer o script de aumentar e diminuir a fonte no JS.
+-Criar uma aba de acessibilidade separada com os botões de aumentar e diminuir fonte, contraste e mudança do fundo claro e escuro para evitar que quebre o navbar.
+-Criar um estilo no CSS para aumentar o contraste e também para colocar o fundo claro e ativá-la usando o JavaScript para essas duas funcionalidades.
 
 Código no Readme
 
 ## 🎯 Objetivo
 
 Qual problema isso resolve?
-Aumenta e diminuí a fonte do site.
+Tornar a página acessível para pessoas que possuam algum tipo de defiiência visual.
 
 ## 📝 Informações adicionais
 
