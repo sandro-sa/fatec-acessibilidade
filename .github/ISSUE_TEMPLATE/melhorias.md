@@ -6,14 +6,24 @@ labels: enhancement
 ---
 
 ## 📌 Descrição
-Descreva sua sugestão.
+
+-Criar uma aba de acessibilidade separada com os botões de aumentar e diminuir fonte, contraste e mudança do fundo claro e escuro para evitar que quebre o navbar.
+-Criar um estilo no CSS para aumentar o contraste e também para colocar o fundo claro e ativá-la usando o JavaScript para essas duas funcionalidades.
+
+Código no Readme
 
 ## 🎯 Objetivo
+
 Qual problema isso resolve?
+Tornar a página acessível para pessoas que possuam algum tipo de defiiência visual.
 
 ## 📝 Informações adicionais
-Detalhes extras aqui.
+
+Implementação utilizando o Gemini
 
 ## link para o projeto
+https://github.com/RafaelPinhoDev/fatec-acessibilidade/tree/atividade-1-fonte-aumentar-diminuir
 
 ## Membros da equipe
+
+Rafael Souza de Pinho
