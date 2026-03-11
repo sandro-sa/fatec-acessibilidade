@@ -2,6 +2,32 @@
 
 ## Desafio 1 — Aumentar/Diminuir Fonte
 
+Definir um tamanho inicial de fonte 
+
+Criar dois botões:
+
+A+ para aumentar a fonte:
+
+A- para diminuir a fonte:
+
+Ao clicar em A+:
+
+Aumentar o valor do tamanho da fonte
+
+Aplicar o novo tamanho ao body
+
+Ao clicar em A-:
+
+Diminuir o valor do tamanho da fonte
+
+Aplicar o novo tamanho ao body
+
+Definir limites mínimo e máximo para evitar fontes muito pequenas ou grandes.
+
+
+
+
+
 ## Objetivo
 Melhorar a usabilidade para pessoas com baixa visão.
 
