@@ -91,7 +91,7 @@ git push -u origin atividade-1-fonte-aumentar-diminuir
 - Se quiser fique a vontadade para tentar criar o script para implantar as melhorias, depois é so seguir os comandos abaixo para atualizar.
 ```bash
 git add .
-git commit -m "Melhorar a usabilidade para quem tem baixa visão codigo"
+git commit -m "Melhorar a usabilidade para solução de contraste na telo codigo"
 git push -u atividade-2-contraste
 ```
 
