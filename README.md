@@ -9,7 +9,7 @@
   ```
 - *Copiando o projeto para o meu computador:*
   - No seu computador em meus documentos, crie um pasta de nome worksapce #Essa é uma boa pratica de organização de projetos
-  - Dentro da pasta workspace cria um nova pasta de nome acessibilidade.
+  - Dentro da pasta workspace criar uma nova pasta de nome acessibilidade.
   - C:\Documentos\Workspace\Acessibilidade # Aqui temos o caminho para o diretório acessibilidade
   - Abra o terminal\bash\powershell neste diretório
 	- Agora no seu navegador abra o seu GitHub no repositório fatec-acessibilidade **//Atenção aqui precisa ser seu o repositório, de outra pessoa não vai dar certo.**
