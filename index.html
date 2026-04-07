@@ -401,6 +401,16 @@
     .font-btn:active {
       transform: translateY(1px);
     }
+
+    :root.high-contrast {
+      --bg: #000000;
+      --surface: #000000;
+      --surface2: #000000;
+      --text: #ffffff;
+      --muted: #dddddd;
+      --brand: #ffff00;
+      --border: rgba(255, 255, 255, 0.6);
+    }
   </style>
 </head>
 
@@ -436,6 +446,8 @@
             <button class="font-btn" onclick="changeFont(1)">A+</button>
             <button class="font-btn" onclick="changeFont(-1)">A-</button>
           </div>
+
+          <div><button class="font-btn" onclick="toggleContrast()">Contraste</button></div>
 
         </div>
       </div>
@@ -630,6 +642,10 @@
       if (currentSize > 24) currentSize = 24;
 
       document.documentElement.style.setProperty('--base-font', currentSize + 'px');
+    }
+
+    function toggleContrast() {
+      document.documentElement.classList.toggle('high-contrast');
     }
   </script>
 </body>
