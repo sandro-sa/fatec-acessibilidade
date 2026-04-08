@@ -75,5 +75,5 @@ O que ela faz:
 * Quando remove → volta ao normal
 
 ## link para o projeto
-https://github.com/luisi-dicarlo/fatec-acessibilidade/tree/atividade1
+https://github.com/luisi-dicarlo/fatec-acessibilidade/tree/atividade2
 
